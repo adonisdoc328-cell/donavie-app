@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donavie Crepes | Crepe Francês Artesanal – Brasília</title>
+<meta name="description" content="Crepes franceses artesanais feitos na hora. Peça agora pelo WhatsApp!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #C9A84C;
+  --gold-2: #E8CC80;
+  --gold-dim: rgba(201,168,76,0.18);
+  --black: #0D0B08;
+  --surface: #141210;
+  --card: #1C1916;
+  --border: rgba(201,168,76,0.2);
+  --white: #FAF7F2;
+  --muted: rgba(250,247,242,0.5);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Background texture ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(201,168,76,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(201,168,76,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ── Noise overlay ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ── Layout ── */
+.page { position: relative; z-index: 1; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.4rem 2rem;
+  transition: background 0.4s, backdrop-filter 0.4s;
+}
+nav.scrolled {
+  background: rgba(13,11,8,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  text-align: center;
+}
+.nav-logo span {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  color: var(--muted);
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 7rem 1.5rem 5rem;
+  position: relative;
+}
+
+/* Gold line ornament */
+.ornament {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.8rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s ease forwards;
+}
+.ornament-line {
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.ornament-line.right {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.ornament-diamond {
+  width: 6px; height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+.ornament-text {
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.5rem, 12vw, 8rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.35s ease forwards;
+}
+.hero-title .gold-word {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+}
+
+.hero-sub {
+  font-size: clamp(0.85rem, 2.2vw, 1rem);
+  color: var(--muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 300;
+  margin-bottom: 2.8rem;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.5s ease forwards;
+}
+
+.hero-desc {
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  color: rgba(250,247,242,0.65);
+  max-width: 380px;
+  line-height: 1.75;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.65s ease forwards;
+}
+
+.hero-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.8s ease forwards;
+}
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.65rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  border-radius: 100px;
+  padding: 0.9rem 2.2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.08);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.btn:hover::after { opacity: 1; }
+.btn:active { transform: scale(0.96); }
+
+.btn-primary {
+  background: var(--gold);
+  color: #0D0B08;
+  font-weight: 600;
+  box-shadow: 0 4px 24px rgba(201,168,76,0.35), 0 1px 4px rgba(0,0,0,0.4);
+}
+.btn-primary:hover {
+  background: var(--gold-2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201,168,76,0.5);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  transform: translateY(-2px);
+}
+
+.btn-whatsapp {
+  background: #22C55E;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 24px rgba(34,197,94,0.3);
+}
+.btn-whatsapp:hover {
+  background: #16A34A;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(34,197,94,0.45);
+}
+
+/* ── SCROLL INDICATOR ── */
+.scroll-hint {
+  position: absolute;
+  bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  opacity: 0;
+  animation: fadeIn 1s 1.4s ease forwards;
+}
+.scroll-hint span {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollDown 1.8s ease-in-out infinite;
+}
+@keyframes scrollDown {
+  0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+  100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+}
+
+/* ── DIVIDER ── */
+.divider {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 0 1.5rem;
+  max-width: 800px; margin: 0 auto;
+}
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.divider-diamond {
+  width: 8px; height: 8px;
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ── MENU ── */
+.menu-section {
+  padding: 6rem 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+.section-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 1rem;
+  display: block;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.15;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+
+.menu-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.menu-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.menu-item::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--gold), var(--gold-2));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.menu-item:hover {
+  border-color: rgba(201,168,76,0.5);
+  background: #211e1a;
+  transform: translateX(4px);
+}
+.menu-item:hover::before { opacity: 1; }
+
+.menu-item-left { flex: 1; min-width: 0; }
+.menu-item-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.35rem;
+  line-height: 1.2;
+}
+.menu-item-desc {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.menu-item-action {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--gold-dim);
+  border: 1px solid var(--border);
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 0.55rem 1.1rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  transition: all 0.25s;
+  flex-shrink: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+.menu-item:hover .menu-item-action {
+  background: var(--gold);
+  color: #0D0B08;
+  border-color: var(--gold);
+}
+
+/* Arrow icon */
+.arrow-icon {
+  width: 14px; height: 14px;
+  transition: transform 0.25s;
+}
+.menu-item:hover .arrow-icon {
+  transform: translateX(3px);
+}
+
+/* ── ABOUT ── */
+.about-section {
+  padding: 5rem 1.5rem;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+.about-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+.about-quote strong {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--gold);
+}
+.about-text {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* ── PILLS ── */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-top: 2rem;
+}
+.pill {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.pill-dot {
+  width: 5px; height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── FINAL CTA ── */
+.cta-section {
+  padding: 7rem 1.5rem;
+  text-align: center;
+  position: relative;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 8vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  margin-bottom: 1.2rem;
+}
+.cta-title em {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+}
+.cta-sub {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+.cta-note {
+  margin-top: 1.2rem;
+  font-size: 0.75rem;
+  color: rgba(250,247,242,0.3);
+  letter-spacing: 0.08em;
+}
+
+/* ── INSTAGRAM DESTAQUE ── */
+.insta-section {
+  padding: 2rem 1.5rem 4rem;
+}
+.insta-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid rgba(188, 24, 136, 0.3);
+  border-radius: 28px;
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.insta-glow {
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(220, 39, 67, 0.12) 0%, rgba(188, 24, 136, 0.08) 40%, transparent 70%);
+  pointer-events: none;
+}
+.insta-logo-wrap {
+  width: 68px; height: 68px;
+  margin: 0 auto 1.2rem;
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 24px rgba(220,39,67,0.35);
+}
+.insta-logo-wrap svg { fill: white; }
+.insta-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.insta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 0.9rem;
+  background: linear-gradient(135deg, #f09433, #dc2743, #bc1888);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.insta-desc {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 380px;
+  margin: 0 auto 2rem;
+}
+.btn-insta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  padding: 0.95rem 2.2rem;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  background-size: 200% auto;
+  box-shadow: 0 4px 20px rgba(220,39,67,0.4);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: none;
+  cursor: pointer;
+}
+.btn-insta:hover {
+  background-position: right center;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 28px rgba(220,39,67,0.55);
+}
+.btn-insta:active { transform: scale(0.97); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+footer p {
+  font-size: 0.72rem;
+  color: rgba(250,247,242,0.25);
+  letter-spacing: 0.06em;
+}
+
+/* ── FLOATING WA ── */
+.float-wa {
+  position: fixed;
+  bottom: 1.8rem; right: 1.8rem;
+  z-index: 200;
+  display: flex; align-items: center; gap: 0.6rem;
+  background: #22C55E;
+  color: white;
+  text-decoration: none;
+  padding: 0.8rem 1.3rem 0.8rem 1rem;
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 4px 20px rgba(34,197,94,0.4), 0 2px 8px rgba(0,0,0,0.4);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  letter-spacing: 0.02em;
+}
+.float-wa:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 30px rgba(34,197,94,0.55);
+}
+.float-wa:active { transform: scale(0.96); }
+.float-wa svg {
+  width: 20px; height: 20px;
+  fill: white;
+  flex-shrink: 0;
+}
+
+/* Label hidden on small screens, shown on wider */
+.float-label { display: none; }
+@media (min-width: 480px) {
+  .float-label { display: inline; }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── EVENTOS ── */
+.events-section {
+  padding: 5rem 1.5rem 6rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.events-section .section-header {
+  text-align: center;
+  margin-bottom: 0.8rem;
+}
+.events-sub {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 480px;
+  margin: 1rem auto 3rem;
+  line-height: 1.75;
+  text-align: center;
+}
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+@media (max-width: 560px) {
+  .events-grid { grid-template-columns: 1fr; }
+}
+.event-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.8rem 1.6rem;
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.event-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,168,76,0.05) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.event-card:hover {
+  border-color: rgba(201,168,76,0.45);
+  transform: translateY(-4px);
+}
+.event-card:hover::after { opacity: 1; }
+.event-icon {
+  width: 52px; height: 52px;
+  background: var(--gold-dim);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+  margin-bottom: 1.1rem;
+}
+.event-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.55rem;
+}
+.event-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.events-cta {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.events-cta-text {
+  font-size: 0.82rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── REVIEWS CAROUSEL ── */
+.reviews-section {
+  padding: 6rem 0 5rem;
+  overflow: hidden;
+}
+.reviews-section .section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 0 1.5rem;
+}
+
+.carousel-wrap {
+  overflow: hidden;
+  width: 100%;
+  cursor: grab;
+  user-select: none;
+}
+.carousel-wrap:active { cursor: grabbing; }
+
+.carousel-track {
+  display: flex;
+  gap: 1.25rem;
+  padding: 0.5rem 1.5rem 1rem;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.review-card {
+  flex: 0 0 clamp(280px, 78vw, 360px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.review-card::before {
+  content: '\201C';
+  position: absolute;
+  top: -0.5rem; right: 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 6rem;
+  color: var(--gold-dim);
+  line-height: 1;
+  pointer-events: none;
+}
+.review-card.active {
+  border-color: rgba(201,168,76,0.45);
+}
+
+.review-stars {
+  color: var(--gold);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+}
+.review-text {
+  font-size: 0.9rem;
+  color: rgba(250,247,242,0.72);
+  line-height: 1.75;
+  font-style: italic;
+  flex: 1;
+}
+.reviewer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.reviewer-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.reviewer-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--white);
+}
+.reviewer-loc {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+/* Dots */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 1.8rem;
+}
+.carousel-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s;
+}
+.carousel-dot.active {
+  background: var(--gold);
+  width: 20px;
+  border-radius: 3px;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 560px) {
+  .menu-item { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .menu-item-action { align-self: flex-start; }
+  .hero-cta { width: 100%; }
+  .btn { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    Donavie
+    <span>Crepe Francês Artesanal</span>
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="ornament">
+    <div class="ornament-line"></div>
+    <div class="ornament-diamond"></div>
+    <span class="ornament-text">Brasília · DF</span>
+    <div class="ornament-diamond"></div>
+    <div class="ornament-line right"></div>
+  </div>
+
+  <h1 class="hero-title">
+    Donavie
+    <span class="gold-word">Crepes</span>
+  </h1>
+
+  <p class="hero-sub">Crepe Francês Artesanal · Feito na Hora</p>
+
+  <p class="hero-desc">
+    Cada crepe preparado com ingredientes selecionados e muito carinho. 
+    Uma experiência de sabor que você não vai esquecer.
+  </p>
+
+  <div class="hero-cta">
+    <a href="https://wa.me/5561996532966?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20fazer%20um%20pedido%20%F0%9F%A5%90"
+       target="_blank" rel="noopener" class="btn btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Peça Agora no WhatsApp
+    </a>
+
+  </div>
+
+  <div class="scroll-hint">
+    <span>rolar</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+
+<!-- SOBRE -->
+<section class="about-section">
+  <p class="about-quote reveal">
+    "Cada crepe é uma <strong>obra feita à mão</strong>, com a técnica francesa e o calor do Brasil."
+  </p>
+  <p class="about-text reveal reveal-delay-1">
+    Na Donavie, acreditamos que comida boa começa com ingredientes honestos e mãos dedicadas. 
+    Cada crepe sai quentinho, na hora, com recheios generosos que fazem a diferença.
+  </p>
+  <div class="pills reveal reveal-delay-2">
+    <div class="pill"><div class="pill-dot"></div> Feito na hora</div>
+    <div class="pill"><div class="pill-dot"></div> Ingredientes selecionados</div>
+    <div class="pill"><div class="pill-dot"></div> Técnica artesanal</div>
+    <div class="pill"><div class="pill-dot"></div> Atendimento personalizado</div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider reveal">
+  <div class="divider-line"></div>
+  <div class="divider-diamond"></div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- EVENTOS -->
+<section class="events-section">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Eventos</span>
+    <h2 class="section-title">Levamos a Donavie <em>até você</em></h2>
+    <p class="events-sub reveal reveal-delay-1">Montamos nossa estrutura completa no seu evento. Cada crepe preparado na hora, quentinho, na frente dos seus convidados.</p>
+  </div>
+
+  <div class="events-grid">
+    <div class="event-card reveal reveal-delay-1">
+      <div class="event-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>
+      <h3 class="event-title">Aniversários</h3>
+      <p class="event-desc">Transforme sua festa em um momento único. Estrutura elegante, atendimento exclusivo e crepes feitos ao vivo para todos os convidados.</p>
+    </div>
+
+    <div class="event-card reveal reveal-delay-2">
+      <div class="event-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+        </svg>
+      </div>
+      <h3 class="event-title">Corporativos</h3>
+      <p class="event-desc">Coffee breaks, confraternizações e lançamentos. Impressione clientes e equipe com uma experiência gastronômica diferenciada.</p>
+    </div>
+
+    <div class="event-card reveal reveal-delay-3">
+      <div class="event-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      </div>
+      <h3 class="event-title">Formaturas</h3>
+      <p class="event-desc">Comemore essa conquista com muito sabor. Decoração temática, cardápio personalizado e atendimento pensado para o seu momento especial.</p>
+    </div>
+
+    <div class="event-card reveal reveal-delay-4">
+      <div class="event-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+        </svg>
+      </div>
+      <h3 class="event-title">Casamentos</h3>
+      <p class="event-desc">Uma estação de crepes no seu casamento é sofisticada e inesquecível. Atendimento personalizado do início ao fim do evento.</p>
+    </div>
+  </div>
+
+  <div class="events-cta reveal">
+    <p class="events-cta-text">Solicite um orçamento sem compromisso</p>
+    <a href="https://wa.me/5561996532966?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20um%20evento%20%F0%9F%A5%90"
+       target="_blank" rel="noopener" class="btn btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Pedir Orçamento no WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider reveal">
+  <div class="divider-line"></div>
+  <div class="divider-diamond"></div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- AVALIAÇÕES -->
+<section class="reviews-section reveal">
+  <div class="section-header">
+    <span class="section-eyebrow">Avaliações</span>
+    <h2 class="section-title">O que nossos <em>clientes dizem</em></h2>
+  </div>
+
+  <div class="carousel-wrap">
+    <div class="carousel-track" id="carouselTrack">
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Melhor crepe que já comi em Brasília! A massa é fininha e crocante, o recheio de frango com queijo é generoso demais. Já pedi três vezes essa semana."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">A</div>
+          <div>
+            <div class="reviewer-name">Ana Lima</div>
+            <div class="reviewer-loc">Asa Sul · Brasília</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Pedi pelo WhatsApp e foi super rápido! O crepe chegou quentinho, embalado com capricho. Sabor incrível, ingredientes frescos. Com certeza voltarei!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">R</div>
+          <div>
+            <div class="reviewer-name">Rafael Mendes</div>
+            <div class="reviewer-loc">Taguatinga · DF</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Contratei a Donavie para o aniversário da minha filha e foi um sucesso absoluto. Todo mundo perguntou de onde era o crepe. Atendimento nota 10!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">C</div>
+          <div>
+            <div class="reviewer-name">Camila Souza</div>
+            <div class="reviewer-loc">Águas Claras · DF</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"O crepe de presunto e queijo é uma obra de arte. Massa artesanal de verdade, dá pra sentir o cuidado em cada mordida. Recomendo a todos os amigos!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">M</div>
+          <div>
+            <div class="reviewer-name">Marcos Oliveira</div>
+            <div class="reviewer-loc">Ceilândia · DF</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Nunca pensei que um crepe pudesse ser tão bom! O de carne com queijo é perfeito. Tempero equilibrado, massa crocante. Já virei cliente fiel da Donavie."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">J</div>
+          <div>
+            <div class="reviewer-name">Juliana Castro</div>
+            <div class="reviewer-loc">Samambaia · DF</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Atendimento pelo WhatsApp muito ágil e simpático. O crepe de frango com milho é delicioso, recheio cremoso e a massa impecável. Adorei demais!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">P</div>
+          <div>
+            <div class="reviewer-name">Pedro Alves</div>
+            <div class="reviewer-loc">Gama · DF</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Dots -->
+  <div class="carousel-dots" id="carouselDots"></div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider reveal">
+  <div class="divider-line"></div>
+  <div class="divider-diamond"></div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- FINAL CTA -->
+<section class="cta-section">
+  <h2 class="cta-title reveal">
+    Pronto para
+    <em>experimentar?</em>
+  </h2>
+  <p class="cta-sub reveal reveal-delay-1">
+    Mande uma mensagem agora e receba seu pedido com todo o carinho da Donavie.
+  </p>
+  <a href="https://wa.me/5561996532966?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20fazer%20um%20pedido%20%F0%9F%A5%90"
+     target="_blank" rel="noopener"
+     class="btn btn-whatsapp reveal reveal-delay-2">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    Falar no WhatsApp
+  </a>
+  <p class="cta-note reveal reveal-delay-3">Respondemos rapidinho · (61) 99653-2966</p>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="insta-section reveal">
+  <div class="insta-inner">
+    <div class="insta-glow"></div>
+
+    <div class="insta-logo-wrap">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="url(#ig-grad)">
+        <defs>
+          <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#f09433"/>
+            <stop offset="25%" stop-color="#e6683c"/>
+            <stop offset="50%" stop-color="#dc2743"/>
+            <stop offset="75%" stop-color="#cc2366"/>
+            <stop offset="100%" stop-color="#bc1888"/>
+          </linearGradient>
+        </defs>
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+    </div>
+
+    <p class="insta-eyebrow">Siga a gente</p>
+    <h2 class="insta-title">@donaviecrepes</h2>
+    <p class="insta-desc">Novidades, sabores do dia, bastidores e muito mais. Acompanhe tudo pelo Instagram e não perca nenhuma promoção!</p>
+
+    <a href="https://instagram.com/donaviecrepes" target="_blank" rel="noopener" class="btn-insta">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+      Seguir no Instagram
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Donavie Crepes</div>
+  <p>© 2026 · Brasília, DF · Todos os direitos reservados</p>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/5561996532966?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20fazer%20um%20pedido%20%F0%9F%A5%90"
+   target="_blank" rel="noopener" class="float-wa" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  <span class="float-label">Fale Conosco</span>
+</a>
+
+<script>
+  // ── Nav scroll ──────────────────────────────────
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // ── Scroll reveal ───────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Carousel infinito ────────────────────────────
+  const track = document.getElementById('carouselTrack');
+  const dotsContainer = document.getElementById('carouselDots');
+  const origCards = Array.from(track.querySelectorAll('.review-card'));
+  const total = origCards.length;
+  let current = 0;
+  let autoTimer = null;
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragDelta = 0;
+  let isTransitioning = false;
+
+  // Clonar antes e depois para loop infinito
+  origCards.forEach(c => track.appendChild(c.cloneNode(true)));
+  origCards.forEach(c => track.insertBefore(c.cloneNode(true), track.firstChild));
+  // Estrutura: [clones-fim | originais | clones-início]
+  // índice real começa em `total` (pula o bloco de clones do fim)
+
+  const allCards = Array.from(track.querySelectorAll('.review-card'));
+
+  // Dots (apenas para os originais)
+  origCards.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Avaliação ${i + 1}`);
+    dot.addEventListener('click', () => { stopAuto(); goTo(i); startAuto(); });
+    dotsContainer.appendChild(dot);
+  });
+
+  function getCardWidth() {
+    return allCards[0].getBoundingClientRect().width + 20;
+  }
+
+  function setTrack(index, animate) {
+    track.style.transition = animate
+      ? 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)'
+      : 'none';
+    track.style.transform = `translateX(-${index * getCardWidth()}px)`;
+  }
+
+  function updateDots(index) {
+    dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) =>
+      d.classList.toggle('active', i === index)
+    );
+  }
+
+  function goTo(index) {
+    if (isTransitioning) return;
+    current = index;
+    // Posição real no DOM: bloco de clones-fim tem `total` cards antes dos originais
+    const domIndex = total + current;
+    setTrack(domIndex, true);
+    updateDots(current);
+  }
+
+  function next() {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    const domIndex = total + current + 1;
+    setTrack(domIndex, true);
+
+    track.addEventListener('transitionend', function onEnd() {
+      track.removeEventListener('transitionend', onEnd);
+      isTransitioning = false;
+      current = (current + 1) % total;
+      // Pula sem animação para o card original correspondente
+      setTrack(total + current, false);
+      updateDots(current);
+    }, { once: true });
+  }
+
+  function startAuto() { stopAuto(); autoTimer = setInterval(next, 3200); }
+  function stopAuto()  { if (autoTimer) clearInterval(autoTimer); }
+
+  // Drag
+  function onDragStart(x) {
+    if (isTransitioning) return;
+    isDragging = true; dragStartX = x; dragDelta = 0;
+    stopAuto();
+    track.style.transition = 'none';
+  }
+  function onDragMove(x) {
+    if (!isDragging) return;
+    dragDelta = x - dragStartX;
+    const domIndex = total + current;
+    track.style.transform = `translateX(calc(-${domIndex * getCardWidth()}px + ${dragDelta}px))`;
+  }
+  function onDragEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    track.style.transition = '';
+    if (dragDelta < -50) next();
+    else if (dragDelta > 50) {
+      isTransitioning = true;
+      const domIndex = total + current - 1;
+      setTrack(domIndex, true);
+      track.addEventListener('transitionend', function onEnd() {
+        track.removeEventListener('transitionend', onEnd);
+        isTransitioning = false;
+        current = (current - 1 + total) % total;
+        setTrack(total + current, false);
+        updateDots(current);
+      }, { once: true });
+    } else {
+      setTrack(total + current, true);
+    }
+    startAuto();
+  }
+
+  track.addEventListener('mousedown',  e => onDragStart(e.clientX));
+  window.addEventListener('mousemove', e => { if (isDragging) onDragMove(e.clientX); });
+  window.addEventListener('mouseup',   () => { if (isDragging) onDragEnd(); });
+  track.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX), { passive: true });
+  track.addEventListener('touchmove',  e => { if (isDragging) onDragMove(e.touches[0].clientX); }, { passive: true });
+  track.addEventListener('touchend',   onDragEnd);
+  track.addEventListener('mouseenter', stopAuto);
+  track.addEventListener('mouseleave', () => { if (!isDragging) startAuto(); });
+
+  // Inicializa sem animação no card 0
+  setTrack(total, false);
+  updateDots(0);
+  startAuto();
+</script>
+</body>
+</html>
